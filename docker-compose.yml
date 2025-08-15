@@ -28,7 +28,6 @@ services:
       POSTGRES_USER: dbuser
       POSTGRES_PASSWORD: dbpassword
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - db-data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U dbuser -d subscriptions"]

@@ -88,8 +88,7 @@ pipeline {
                     // SonarScanner tool path
                     def scannerHome = tool 'SonarScanner'
                     withSonarQubeEnv('SonarQube') {
-                        // Use 'sh' for Linux compatibility or 'bat' for Windows
-                        sh """
+                        bat """
                             ${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=${SONAR_PROJECT_KEY} -Dsonar.sources=. -Dsonar.exclusions=node_modules/**,test/**,coverage/**
                         """
                     }
@@ -120,8 +119,7 @@ pipeline {
                 script {
                     echo "Running container security scan..."
                     try {
-                        // Use sh for Linux environments
-                        sh "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image --exit-code 1 --severity HIGH,CRITICAL ${DOCKER_IMAGE_NAME}:${IMAGE_TAG}"
+                        bat "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image --exit-code 1 --severity HIGH,CRITICAL ${DOCKER_IMAGE_NAME}:${IMAGE_TAG}"
                     } catch (Exception e) {
                         echo "Security scan encountered issues but continuing: ${e.getMessage()}"
                     }

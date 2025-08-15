@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm Install
+RUN npm install
 
 # Stage 2: Production Stage
 # Use a lean Node.js base image for the final production container

@@ -1,0 +1,40 @@
+version: '3.8'
+
+services:
+  product-service:
+    build: .
+    ports:
+      - "3001:3001"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_NAME: subscriptions
+      DB_USER: dbuser
+      DB_PASSWORD: dbpassword
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  db:
+    image: postgres:13
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: subscriptions
+      POSTGRES_USER: dbuser
+      POSTGRES_PASSWORD: dbpassword
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dbuser -d subscriptions"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  db-data:

@@ -12,12 +12,11 @@ jest.mock('pg', () => ({
 const app = express();
 app.use(express.json());
 
-// Mock database pool
+// Mock DB pool
 const mockPool = {
   query: jest.fn(),
 };
 
-// Import your routes (we'll simulate them since we can't modify index.js)
 app.get('/health', (req, res) => {
   res.status(200).send('OK');
 });

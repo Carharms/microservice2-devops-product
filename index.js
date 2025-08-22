@@ -6,7 +6,6 @@ const index = express();
 index.use(cors());
 index.use(express.json());
 
-// Database connection
 const pool = new Pool({
     host: process.env.DB_HOST || 'localhost',
     database: process.env.DB_NAME || 'ecommerce',
@@ -15,12 +14,11 @@ const pool = new Pool({
     port: 5432,
 });
 
-// Health check
 index.get('/health', (req, res) => {
     res.status(200).send('OK');
 });
 
-// Get all products
+// All products
 index.get('/products', async (req, res) => {
     try {
         const result = await pool.query('SELECT * FROM products');
@@ -31,7 +29,7 @@ index.get('/products', async (req, res) => {
     }
 });
 
-// Get single product
+// Single product
 index.get('/products/:id', async (req, res) => {
     try {
         const { id } = req.params;
@@ -46,7 +44,7 @@ index.get('/products/:id', async (req, res) => {
     }
 });
 
-// Create product
+// POST product
 index.post('/products', async (req, res) => {
     try {
         const { name, price, description } = req.body;

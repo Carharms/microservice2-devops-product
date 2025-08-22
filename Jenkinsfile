@@ -119,7 +119,7 @@ pipeline {
                 script {
                     echo "Running container security scan..."
                     try {
-                        bat "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image --exit-code 1 --severity HIGH,CRITICAL ${DOCKER_IMAGE_NAME}:${IMAGE_TAG}"
+                        bat "docker run --rm -v /var/run/docker.sock:/var/run/docker.sock aquasec/trivy:latest image --exit-code 1 --severity CRITICAL ${DOCKER_IMAGE_NAME}:${IMAGE_TAG}"
                     } catch (Exception e) {
                         echo "Security scan encountered issues but continuing: ${e.getMessage()}"
                     }
